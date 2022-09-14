@@ -25,6 +25,6 @@ function txtReader(txt){
     });
 }
 
-txtReader("../files/input.txt");
+txtReader("./test files/input.txt");
 //make it accept single or multiple files(folder)
 //consider omit the soruce = txt step

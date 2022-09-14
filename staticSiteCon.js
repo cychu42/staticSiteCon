@@ -16,7 +16,7 @@ function txtReader(txt){
     //change to each line
     reader.on("line", function(line) {
      if(line.trim()==""){
-        outStream.write(line);
+        outStream.write(" \n");
      }
      else{
         outStream.write("<p>"+line+"</p>\n");
@@ -25,6 +25,6 @@ function txtReader(txt){
     });
 }
 
-txtReader("input.txt");
+txtReader("../files/input.txt");
 //make it accept single or multiple files(folder)
 //consider omit the soruce = txt step

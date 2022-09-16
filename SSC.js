@@ -1,12 +1,12 @@
 const fs = require("fs");
 const readline = require("readline");
 var argv = require('minimist')(process.argv.slice(2));//args using minimist, but ignore first 2
+delete argv['_'];//this tool does not use it
 
 const version="TXT-to-HTML Static Site Converter v0.1";//tool name and version when queried
 
 var outputPath="./dist";//output path
 var css="";//stylesheet url
-var optinoUsed=false;//flag for whether any option is used
 
 //help description
 const help="This is mainly a tool that covnerts txt files into static web pages.\n\
@@ -26,7 +26,7 @@ Example: -o https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css
 --help or -h\n\
 This shows the help guide.\n"
 
-//main txt to html conversion
+//main txt-to-html conversion function
 function txtReader(source){
    const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//for displaying message in the end
    const destination = outputPath+source.slice(source.lastIndexOf("/"),source.indexOf(".txt"))+".html";
@@ -73,22 +73,20 @@ ${css}\
 }
 
 
+
 /**-------------------execute different things depending on args-------------------*/
 //==ask for version==
 if(argv.version || argv.v){
-   optinoUsed=true;
    console.log(version);
 }
 
 //==help==
 if(argv.help || argv.h){
-   optinoUsed=true;
    console.log(help);//update hlep as you go<=====1
 }
 
 //==specify output==
 if(argv.output || argv.o){
-   optinoUsed=true;
    outputPath=(argv.output || argv.o)+"";
    fs.access(outputPath, function(err) {//check if the directory exist
       if (err && err.code === 'ENOENT') {
@@ -100,7 +98,6 @@ if(argv.output || argv.o){
 
 //==specify stylesheet==
 if(argv.stylesheet || argv.s){
-   optinoUsed=true;
    css=`  <link rel="stylesheet" href="${(argv.stylesheet || argv.s)+""}">\n`;
 }
 
@@ -108,7 +105,6 @@ if(argv.stylesheet || argv.s){
 
 //==when one or more file are provided, convert them to html==
 if(argv.input || argv.i){
-   optinoUsed=true;
    console.log("Created output file(s):")//part of message for what's created
 
    const source = (argv.input || argv.i)+""; 
@@ -141,10 +137,18 @@ if(argv.input || argv.i){
    }
 }
 
-if(optinoUsed==false){
-   console.log("No valid option used. Check README.md or use -help/-h option for details.")
+//check for option validity
+if(Object.keys(argv).length==0){
+   console.log("No valid option used. Check README.md or use -help/-h option for details.");
 }
-
+else{
+   for(const [key, value] of Object.entries(argv)){
+      if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" )){
+         console.log("Invalid option used. Check README.md or use -help/-h option for details.");
+         return;
+      }
+   }
+}
 
 //test only, please delete later<=====2
 console.log(argv);

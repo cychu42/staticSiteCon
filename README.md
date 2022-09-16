@@ -11,7 +11,7 @@ The user can provide one or more txt files to convert into html file(s) of the s
 Sample test files are in "test_files" folder.<br />
 This tool is run by entering commands in command line.<br />
 Use --input or -i to specify path to a txt file or a folder with txt files, and this tool will convert them into html files in 'dist' folder.<br />
-If the dist folder doesn't exist at the current directory, one will be created. If it exist, it will be deleted first to clean old output.<br />
+If the dist folder doesn't exist at the current directory, one will be created. If it exist, it will be deleted first to clean old output before being recreated.<br />
 Example: node SSC -i ./test_files
 
 If you path has spaces for a file or folder, please use '' around the name(s).<br />

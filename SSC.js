@@ -79,13 +79,13 @@ ${css}\
 /**-------------------execute different things depending on args-------------------*/
 //check for option validity
 if(Object.keys(argv).length==0){
-   console.log("No option used. Check README.md or use -help/-h option for details.");
+   console.log("No option used. Check README.md or use --help/-h option for details.");
    valid = false;
 }
 else{
    for(const [key, value] of Object.entries(argv)){
       if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" )){
-         console.log("Invalid option used. Check README.md or use -help/-h option for details.");
+         console.log("Invalid option used. Check README.md or use --help/-h option for details.");
          valid = false;
       }
    }

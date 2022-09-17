@@ -56,13 +56,25 @@ ${css}\
    //write the starting part
    outStream.write(htmlStart);
 
+   var lineClosed=true;//whether line is clsoed with </p>
    //change to each line
    reader.on("line", function(line) {
       if(line.trim()==""){
-         outStream.write(" \n");
+         if (lineClosed==false){
+            outStream.write("</p>\n\n");                   //outStream.write(" \n");
+            lineClosed=true;
+         }else{
+            outStream.write("\n");
+         }
       }
       else{
-         outStream.write("  <p>"+line+"</p>\n");
+         if (lineClosed==true){
+            outStream.write("  <p>"+line);                    //outStream.write("  <p>"+line+"</p>\n");
+            lineClosed=false;  
+         }else{
+            outStream.write(line);
+         }
+      
       }
    });
 

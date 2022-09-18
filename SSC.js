@@ -72,7 +72,7 @@ ${css}\
             outStream.write("  <p>"+line);                    
             lineClosed=false;  
          }else{
-            outStream.write(line);
+            outStream.write(" "+line);
          }
       
       }

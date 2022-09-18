@@ -61,7 +61,7 @@ ${css}\
    reader.on("line", function(line) {
       if(line.trim()==""){
          if (lineClosed==false){
-            outStream.write("</p>\n\n");                   //outStream.write(" \n");
+            outStream.write("</p>\n\n");
             lineClosed=true;
          }else{
             outStream.write("\n");
@@ -69,7 +69,7 @@ ${css}\
       }
       else{
          if (lineClosed==true){
-            outStream.write("  <p>"+line);                    //outStream.write("  <p>"+line+"</p>\n");
+            outStream.write("  <p>"+line);                    
             lineClosed=false;  
          }else{
             outStream.write(line);

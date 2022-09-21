@@ -42,6 +42,13 @@ function startHtml(title, css) {
    return htmlStart;
 }
 
+function interface(inStream) {
+   return readline.createInterface({
+      input: inStream,
+      terminal: false,
+   });
+}
+
 //main txt-to-html conversion function
 function txtReader(source){
    const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//for displaying message in the end
@@ -54,10 +61,7 @@ function txtReader(source){
    var htmlStart = startHtml(title, css);
 
    //interface
-   var reader = readline.createInterface({
-     input: inStream,
-     terminal: false
-   });
+   var reader = interface(inStream);
 
    //write the starting part
    outStream.write(htmlStart);
@@ -103,10 +107,7 @@ function mdReader(source){
    var htmlStart = startHtml(title, css);
 
    //interface
-   var reader = readline.createInterface({
-     input: inStream,
-     terminal: false
-   });
+   var reader = interface(inStream);
 
    //write the starting part
    outStream.write(htmlStart);

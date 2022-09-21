@@ -1,5 +1,6 @@
 const fs = require("fs");
 const readline = require("readline");
+const path = require("path");
 var argv = require('minimist')(process.argv.slice(2));//args using minimist, but ignore first 2
 delete argv['_'];//this tool does not use it
 
@@ -28,6 +29,19 @@ Example: -s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css
 --help or -h\n\
 This shows the help guide.\n"
 
+function startHtml(title, css) {
+   var htmlStart = `<!doctype html>\n\
+                     <html lang="en">\n\
+                        <head>\n\
+                           <meta charset="utf-8">\n\
+                           <title>${title}</title>\n\
+                           <meta name="viewport" content="width=device-width, initial-scale=1">\n\
+                           ${css}\
+                        </head>\n\
+                        <body>\n`;
+   return htmlStart;
+}
+
 //main txt-to-html conversion function
 function txtReader(source){
    const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//for displaying message in the end
@@ -37,15 +51,7 @@ function txtReader(source){
    const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//set title
    
    //first half of html
-   var htmlStart=`<!doctype html>\n\
-<html lang="en">\n\
-<head>\n\
-  <meta charset="utf-8">\n\
-  <title>${title}</title>\n\
-  <meta name="viewport" content="width=device-width, initial-scale=1">\n\
-${css}\
-</head>\n\
-<body>\n`;
+   var htmlStart = startHtml(title, css);
 
    //interface
    var reader = readline.createInterface({
@@ -68,6 +74,56 @@ ${css}\
          }
       }
       else{
+         if (lineClosed==true){
+            outStream.write("  <p>"+line);                    
+            lineClosed=false;  
+         }else{
+            outStream.write(" "+line);
+         }
+      
+      }
+   });
+
+   //write the ending part when there's no more
+   reader.on("close", function() {
+      outStream.write("</body>\n</html>\n");
+   });
+
+   console.log(`${name}.html`);//part of message for what's created
+}
+
+function mdReader(source){
+   const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".md"));//for displaying message in the end
+   const destination = outputPath+source.slice(source.lastIndexOf("/"),source.indexOf(".md"))+".html";
+   const inStream = fs.createReadStream(source);
+   const outStream = fs.createWriteStream(destination, { encoding: "utf8" });
+   const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".md"));//set title
+   
+   //first half of html
+   var htmlStart = startHtml(title, css);
+
+   //interface
+   var reader = readline.createInterface({
+     input: inStream,
+     terminal: false
+   });
+
+   //write the starting part
+   outStream.write(htmlStart);
+
+   var lineClosed=true;//whether line is clsoed with </p>
+   //change to each line
+   reader.on("line", function(line) {
+      if(line.trim()==""){
+         if (lineClosed==false){
+            outStream.write("</p>\n\n");
+            lineClosed=true;
+         }else{
+            outStream.write("\n");
+         }
+      }
+      else{
+         line = line.replace(/\*\*(.*?)\*\*/, '<b>$1</b>');
          if (lineClosed==true){
             outStream.write("  <p>"+line);                    
             lineClosed=false;  
@@ -158,16 +214,24 @@ else{
          }       
       });
 
-
-      if(source.slice(-4)==".txt"){//only 1 input file
+      var extension = path.extname(source);
+      if( extension == ".txt" /* source.slice(-4)==".txt" */){//only 1 input file
          txtReader(source);
+      }
+      else if (extension == ".md"){
+         mdReader(source);
       }
       else{//a directory as input
          fs.readdir(source, (err, files)=>{
             try{
                files.forEach(file=>{
-                  if(file.slice(-4)==".txt"){//only select txt files
+                  var extension = path.extname(file);
+                  if(extension ==".txt"){//only select txt files
                      txtReader(source+"/"+file);
+                     outputed=true;
+                  }
+                  else if(extension == ".md"){
+                     mdReader(source+"/"+file);
                      outputed=true;
                   }               
                });

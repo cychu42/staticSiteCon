@@ -239,7 +239,7 @@ else{
                if(files.length==0){//for the case of source folder being empty
                   console.log("Invalid source. Source folder is empty!");
                }else if(outputed==false){
-                  console.log("Invalid source. Please have txt file(s) in the folder.");//for the case of source folder being valid with no txt file inside
+                  console.log("Invalid source. Please have txt/md file(s) in the folder.");//for the case of source folder being valid with no txt file inside
                }
             }catch(e){
                console.log("Invalid source. Please ensure source is valid and exists.");//if source doesn't exist or is invalid, will throw error and come here

@@ -31,14 +31,14 @@ This shows the help guide.\n"
 
 function startHtml(title, css) {
    var htmlStart = `<!doctype html>\n\
-                     <html lang="en">\n\
-                        <head>\n\
-                           <meta charset="utf-8">\n\
-                           <title>${title}</title>\n\
-                           <meta name="viewport" content="width=device-width, initial-scale=1">\n\
-                           ${css}\
-                        </head>\n\
-                        <body>\n`;
+   <html lang="en">\n\
+   <head>\n\
+     <meta charset="utf-8">\n\
+     <title>${title}</title>\n\
+     <meta name="viewport" content="width=device-width, initial-scale=1">\n\
+   ${css}\
+   </head>\n\
+   <body>\n`;
    return htmlStart;
 }
 

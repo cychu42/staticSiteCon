@@ -125,6 +125,7 @@ function mdReader(source){
       }
       else{
          line = line.replace(/\*\*(.*?)\*\*/, '<b>$1</b>');
+         line = line.replace(/__(.*?)__/, '<b>$1</b>');
          if (lineClosed==true){
             outStream.write("  <p>"+line);                    
             lineClosed=false;  

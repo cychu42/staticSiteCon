@@ -1,5 +1,6 @@
 const fs = require("fs");
 const readline = require("readline");
+const path = require("path");
 var argv = require('minimist')(process.argv.slice(2));//args using minimist, but ignore first 2
 delete argv['_'];//this tool does not use it
 
@@ -28,6 +29,26 @@ Example: -s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css
 --help or -h\n\
 This shows the help guide.\n"
 
+function startHtml(title, css) {
+   var htmlStart = `<!doctype html>\n\
+<html lang="en">\n\
+<head>\n\
+  <meta charset="utf-8">\n\
+  <title>${title}</title>\n\
+  <meta name="viewport" content="width=device-width, initial-scale=1">\n\
+${css}\
+</head>\n\
+<body>\n`;
+   return htmlStart;
+}
+
+function interface(inStream) {
+   return readline.createInterface({
+      input: inStream,
+      terminal: false,
+   });
+}
+
 //main txt-to-html conversion function
 function txtReader(source){
    const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//for displaying message in the end
@@ -37,21 +58,10 @@ function txtReader(source){
    const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//set title
    
    //first half of html
-   var htmlStart=`<!doctype html>\n\
-<html lang="en">\n\
-<head>\n\
-  <meta charset="utf-8">\n\
-  <title>${title}</title>\n\
-  <meta name="viewport" content="width=device-width, initial-scale=1">\n\
-${css}\
-</head>\n\
-<body>\n`;
+   var htmlStart = startHtml(title, css);
 
    //interface
-   var reader = readline.createInterface({
-     input: inStream,
-     terminal: false
-   });
+   var reader = interface(inStream);
 
    //write the starting part
    outStream.write(htmlStart);
@@ -68,6 +78,53 @@ ${css}\
          }
       }
       else{
+         if (lineClosed==true){
+            outStream.write("  <p>"+line);                    
+            lineClosed=false;  
+         }else{
+            outStream.write(" "+line);
+         }
+      
+      }
+   });
+
+   //write the ending part when there's no more
+   reader.on("close", function() {
+      outStream.write("</body>\n</html>\n");
+   });
+
+   console.log(`${name}.html`);//part of message for what's created
+}
+
+function mdReader(source){
+   const name=source.slice(source.lastIndexOf("/")+1,source.indexOf(".md"));//for displaying message in the end
+   const destination = outputPath+source.slice(source.lastIndexOf("/"),source.indexOf(".md"))+".html";
+   const inStream = fs.createReadStream(source);
+   const outStream = fs.createWriteStream(destination, { encoding: "utf8" });
+   const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".md"));//set title
+   
+   //first half of html
+   var htmlStart = startHtml(title, css);
+
+   //interface
+   var reader = interface(inStream);
+
+   //write the starting part
+   outStream.write(htmlStart);
+
+   var lineClosed=true;//whether line is clsoed with </p>
+   //change to each line
+   reader.on("line", function(line) {
+      if(line.trim()==""){
+         if (lineClosed==false){
+            outStream.write("</p>\n\n");
+            lineClosed=true;
+         }else{
+            outStream.write("\n");
+         }
+      }
+      else{
+         line = line.replace(/\*\*(.*?)\*\*/, '<b>$1</b>');
          if (lineClosed==true){
             outStream.write("  <p>"+line);                    
             lineClosed=false;  
@@ -158,23 +215,31 @@ else{
          }       
       });
 
-
-      if(source.slice(-4)==".txt"){//only 1 input file
+      var extension = path.extname(source);
+      if( extension == ".txt" /* source.slice(-4)==".txt" */){//only 1 input file
          txtReader(source);
+      }
+      else if (extension == ".md"){
+         mdReader(source);
       }
       else{//a directory as input
          fs.readdir(source, (err, files)=>{
             try{
                files.forEach(file=>{
-                  if(file.slice(-4)==".txt"){//only select txt files
+                  var extension = path.extname(file);
+                  if(extension ==".txt"){//only select txt files
                      txtReader(source+"/"+file);
+                     outputed=true;
+                  }
+                  else if(extension == ".md"){
+                     mdReader(source+"/"+file);
                      outputed=true;
                   }               
                });
                if(files.length==0){//for the case of source folder being empty
                   console.log("Invalid source. Source folder is empty!");
                }else if(outputed==false){
-                  console.log("Invalid source. Please have txt file(s) in the folder.");//for the case of source folder being valid with no txt file inside
+                  console.log("Invalid source. Please have txt/md file(s) in the folder.");//for the case of source folder being valid with no txt file inside
                }
             }catch(e){
                console.log("Invalid source. Please ensure source is valid and exists.");//if source doesn't exist or is invalid, will throw error and come here

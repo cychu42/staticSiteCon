@@ -116,7 +116,9 @@ function mdReader(source){
    var boldClosed= true;
    //change to each line
    reader.on("line", function(line) {
-      while(line.includes("__") || line.includes("**")){
+
+      // Bold text parsing
+      while (line.includes("__") || line.includes("**")) {
          if (boldClosed) {
             line = line.replace("__", "<b>");
             line = line.replace("**", "<b>");
@@ -124,23 +126,24 @@ function mdReader(source){
             if (line.match(/__/)) {
                line = line.replace("__", "</b>");
                boldClosed = true;
-            } 
+            }
             if (line.match(/\*\*/)) {
                line = line.replace("**", "</b>");
                boldClosed = true;
             }
          }
-         if (!boldClosed){
+         if (!boldClosed) {
             if (line.match(/__/)) {
                line = line.replace("__", "</b>");
                boldClosed = true;
-            } 
+            }
             if (line.match(/\*\*/)) {
                line = line.replace("**", "</b>");
                boldClosed = true;
             }
          }
       }  
+      
       if(line.trim()==""){
          if (lineClosed==false){
             outStream.write("</p>\n\n");

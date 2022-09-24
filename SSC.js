@@ -113,8 +113,37 @@ function mdReader(source){
    outStream.write(htmlStart);
 
    var lineClosed=true;//whether line is clsoed with </p>
+   var boldClosed= true;
    //change to each line
    reader.on("line", function(line) {
+
+      // Bold text parsing
+      while (line.includes("__") || line.includes("**")) {
+         if (boldClosed) {
+            line = line.replace("__", "<b>");
+            line = line.replace("**", "<b>");
+            boldClosed = false;
+            if (line.match(/__/)) {
+               line = line.replace("__", "</b>");
+               boldClosed = true;
+            }
+            if (line.match(/\*\*/)) {
+               line = line.replace("**", "</b>");
+               boldClosed = true;
+            }
+         }
+         if (!boldClosed) {
+            if (line.match(/__/)) {
+               line = line.replace("__", "</b>");
+               boldClosed = true;
+            }
+            if (line.match(/\*\*/)) {
+               line = line.replace("**", "</b>");
+               boldClosed = true;
+            }
+         }
+      }  
+      
       if(line.trim()==""){
          if (lineClosed==false){
             outStream.write("</p>\n\n");
@@ -124,14 +153,12 @@ function mdReader(source){
          }
       }
       else{
-         line = line.replace(/\*\*(.*?)\*\*/, '<b>$1</b>');
-         if (lineClosed==true){
-            outStream.write("  <p>"+line);                    
-            lineClosed=false;  
-         }else{
-            outStream.write(" "+line);
+         if (lineClosed == true) {
+            outStream.write("  <p>" + line);
+            lineClosed = false;
+         } else {
+            outStream.write(" " + line);
          }
-      
       }
    });
 

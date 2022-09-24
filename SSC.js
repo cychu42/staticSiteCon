@@ -153,7 +153,6 @@ function mdReader(source){
          }
       }
       else{
-                
          if (lineClosed == true) {
             outStream.write("  <p>" + line);
             lineClosed = false;

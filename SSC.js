@@ -9,6 +9,7 @@ const { version } = require("./package.json");//version
 var valid=true;//validity of options
 var outputPath="./dist";//output path
 var css="";//stylesheet url
+var lang="en-CA";//language of the HTML files
 
 //help description
 const help="This is mainly a tool that converts txt files into static web pages.\n\
@@ -29,9 +30,9 @@ Example: -s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css
 --help or -h\n\
 This shows the help guide.\n"
 
-function startHtml(title, css) {
+function startHtml(title, css, lang) {
    var htmlStart = `<!doctype html>\n\
-<html lang="en">\n\
+<html lang="${lang}">\n\
 <head>\n\
   <meta charset="utf-8">\n\
   <title>${title}</title>\n\
@@ -58,7 +59,7 @@ function txtReader(source){
    const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".txt"));//set title
    
    //first half of html
-   var htmlStart = startHtml(title, css);
+   var htmlStart = startHtml(title, css, lang);
 
    //interface
    var reader = interface(inStream);
@@ -104,7 +105,7 @@ function mdReader(source){
    const title=source.slice(source.lastIndexOf("/")+1,source.indexOf(".md"));//set title
    
    //first half of html
-   var htmlStart = startHtml(title, css);
+   var htmlStart = startHtml(title, css, lang);
 
    //interface
    var reader = interface(inStream);
@@ -180,7 +181,7 @@ if(Object.keys(argv).length==0){
 }
 else{
    for(const [key, value] of Object.entries(argv)){
-      if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" )){
+      if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" || key=="l" || key =="lang")){
          console.log("Invalid option used. Check README.md or use --help/-h option for details.");
          valid = false;
       }
@@ -219,6 +220,11 @@ else{
    //==specify stylesheet==
    if(argv.stylesheet || argv.s){
       css=`  <link rel="stylesheet" href="${(argv.stylesheet || argv.s)+""}">\n`;
+   }
+
+   //==specify language==
+   if(argv.lang || argv.l){
+         lang=argv.lang || argv.l;
    }
 
    //==when one or more file are provided, convert them to html==

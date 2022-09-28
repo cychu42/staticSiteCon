@@ -14,7 +14,7 @@ var lang="en-CA";//language of the HTML files
 //help description
 const help=
 "## Goal\n\
-This is mainly a tool that converts TXT files into static web pages. Additionally, Markdown(MD) files will also get converted into HTML.  Any bold text in the MD file will also appear bold in the HTML file.\n\n\
+This is mainly a tool that converts TXT files into static web pages. Additionally, Markdown(MD) files will also get converted into HTML.  Any bold text in the MD file will also appear bold in the HTML file. Also, any `---` or longer variations will become horizontal rule/line in the HTML files.\n\n\
 \
 ## Requirment\n\
 Please first have Node.js installed on your machine. After downloading this tool, please run command 'npm i' in command line(such as cmd or PowerShell) while inside the tools directory to install required npm package(s).\n\n\

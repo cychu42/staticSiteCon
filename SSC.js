@@ -12,23 +12,41 @@ var css="";//stylesheet url
 var lang="en-CA";//language of the HTML files
 
 //help description
-const help="This is mainly a tool that converts txt files into static web pages.\n\
-The user can provide one or more txt files to convert into html file(s) of the same names.\n\
-Use --input or -i to specify path to a txt file or a folder with txt files, and this tool will convert them into html files in 'dist' folder.\n\
-If the dist folder doesn't exist at the current directory, one will be created. If it exist, it will be deleted first to clean old output.\n\
+const help=
+"## Goal\n\
+This is mainly a tool that converts TXT files into static web pages. Additionally, Markdown(MD) files will also get converted into HTML.  Any bold text in the MD file will also appear bold in the HTML file.\n\n\
+\
+## Requirment\n\
+Please first have Node.js installed on your machine. After downloading this tool, please run command 'npm i' in command line(such as cmd or PowerShell) while inside the tools directory to install required npm package(s).\n\n\
+\
+## Usage\n\
+The user can provide one or more TXT/MD files to convert into HTML file(s) of the same names.\n\
+Sample test files are in 'test_files' folder.\n\
+This tool is run by entering commands in command line.\n\n\
+\
+Use '--input' or '-i' to specify path to a TXT/MD file or a folder with TXT/MD files, and this tool will convert them into HTML files in 'dist' folder.\n\
+If the dist folder doesn't exist at the current directory, one will be created. If it exist, it will be deleted first to clean old output before being recreated.\n\
 Example: node SSC -i ./test_files\n\n\
-Other options:\n\
---version or -v\n\
+\
+If you path has spaces for a file or folder, please use '' around the name(s).\n\
+Example: node SSC -i ./'a folder with space in the name'\n\n\
+\
+## Other options:\n\
+'--version' or '-v'\n\
 This provides tool name and its version.\n\n\
---output or -o\n\
-Use this to specify an output directory instead of the dist folder. If the directory is invalid, default to the ./dist folder.\n\
+\
+'--output' or '-o'\n\
+Use this to specify an output directory instead of the dist folder. If the directory is invalid, output directory is set back to the default.\n\
 For safety, the directory specified by this option is never deleted by the tool.\n\
-Example: -o ./myFolder\n\n\
---stylesheet or -s\n\
+Example: -o ./myFolder \n\n\
+\
+'--stylesheet' or '-s'\n\
 Use this to specify url of the stylesheet to use.\n\
-Example: -s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css\n\n\
---help or -h\n\
-This shows the help guide.\n"
+Example: `-s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css`\n\n\
+\
+'--help` or '-h'\n\
+This shows the help guide."
+
 
 function startHtml(title, css, lang) {
    var htmlStart = `<!doctype html>\n\
@@ -144,20 +162,30 @@ function mdReader(source){
             }
          }
       }  
+
+
+      // parse any --- into <hr>
+      line = line.replaceAll(/-{3,}/g, "<hr>");
       
+
       if(line.trim()==""){
          if (lineClosed==false){
             outStream.write("</p>\n\n");
             lineClosed=true;
-         }else{
+         }
+         else{
             outStream.write("\n");
          }
       }
       else{
-         if (lineClosed == true) {
+         if(line=="<hr>"){//if it's just a tag, write as it is; only has <hr> so far, but this can expand later
+            outStream.write("  "+line+"\n");
+         }
+         else if (lineClosed == true) {
             outStream.write("  <p>" + line);
             lineClosed = false;
-         } else {
+         }
+         else {
             outStream.write(" " + line);
          }
       }

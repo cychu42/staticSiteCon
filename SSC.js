@@ -4,7 +4,7 @@ const path = require("path");
 var argv = require('minimist')(process.argv.slice(2));//args using minimist, but ignore first 2
 delete argv['_'];//this tool does not use it
 
-const version="TXT-to-HTML Static Site Converter v0.1";//tool name and version when queried
+const { version } = require("./package.json");//version
 
 var valid=true;//validity of options
 var outputPath="./dist";//output path

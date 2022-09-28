@@ -45,7 +45,11 @@ Use this to specify url of the stylesheet to use.\n\
 Example: `-s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css`\n\n\
 \
 '--help` or '-h'\n\
-This shows the help guide."
+This shows the help guide.\n\n\
+\
+`--lang` or `-l`\n\
+Use this to specify the language of the HTML files.\n\
+Example: `-l fr` for French"
 
 
 function startHtml(title, css, lang) {

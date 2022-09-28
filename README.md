@@ -27,9 +27,13 @@ Use this to specify an output directory instead of the dist folder. If the direc
 For safety, the directory specified by this option is never deleted by the tool.<br />
 Example: `-o ./myFolder`
 
-`--stylesheet` or `-s`
+`--stylesheet` or `-s`<br />
 Use this to specify url of the stylesheet to use.<br />
 Example: `-s https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css`
 
 `--help` or `-h`<br />
 This shows the help guide.
+
+`--lang` or `-l`<br />
+Use this to specify the language of the HTML files.<br />
+Example: `-l fr` for French

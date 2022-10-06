@@ -5,8 +5,6 @@ var argv = require('minimist')(process.argv.slice(2));//args using minimist, but
 delete argv['_'];//this tool does not use it
 
 const { version } = require("./package.json");//version
-const { parse } = require("path");
-const { config } = require("process");
 
 var valid=true;//validity of options
 var outputPath="./dist";//output path

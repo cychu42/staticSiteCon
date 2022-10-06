@@ -49,7 +49,11 @@ This shows the help guide.\n\n\
 \
 '--lang' or '-l'\n\
 Use this to specify the language of the HTML files.\n\
-Example: -l fr"
+Example: -l fr\n\n\
+\
+'--config' or '-c'\n\
+Use this to specify JSON config file that has a list of options. If the same option is provided in config file and command line argument, the command line argument will be overridden.\n\
+Example: -c ./config.json"
 
 
 function startHtml(title, css, lang) {

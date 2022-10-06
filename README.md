@@ -37,3 +37,18 @@ This shows the help guide.
 `--lang` or `-l`<br />
 Use this to specify the language of the HTML files.<br />
 Example: `-l fr` for French
+
+`--config` or `-c`<br />
+Use this to specify JSON config file that has a list of options.<br />
+If the same option is provided in config file and command line argument, the command line argument will be overridden.<br />
+Example: `-c ./config.json` for below options to be added.<br />
+<span style="color:dimgray;;font-size:20px">config.json</span>
+```json
+{
+  "input": "./test_files",
+  "output": "./out",
+  "stylesheet": "https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.8.0/tufte.min.css",
+  "lang": "fr-CA",
+  "future-feature": "invalid option will be ignored"
+}
+```

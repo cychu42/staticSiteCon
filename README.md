@@ -42,7 +42,7 @@ Example: `-l fr` for French
 Use this to specify JSON config file that has a list of options.<br />
 If the same option is provided in config file and command line argument, the command line argument will be overridden.<br />
 Example: `-c ./config.json` for below options to be added.<br />
-<span style="color:dimgray;;font-size:20px">config.json</span>
+<span style="color:dimgray;;font-size:16px">config.json</span>
 ```json
 {
   "input": "./test_files",

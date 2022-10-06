@@ -5,6 +5,8 @@ var argv = require('minimist')(process.argv.slice(2));//args using minimist, but
 delete argv['_'];//this tool does not use it
 
 const { version } = require("./package.json");//version
+const { parse } = require("path");
+const { config } = require("process");
 
 var valid=true;//validity of options
 var outputPath="./dist";//output path
@@ -213,13 +215,20 @@ if(Object.keys(argv).length==0){
 }
 else{
    for(const [key, value] of Object.entries(argv)){
-      if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" || key=="l" || key =="lang")){
+      if(!(key=="v" || key=="version" || key=="h" || key=="help" || key=="o" || key=="output" || key=="s" || key=="stylesheet" || key=="i" || key=="input" || key=="l" || key =="lang" || key=="c" || key=="config")){
          console.log("Invalid option used. Check README.md or use --help/-h option for details.");
          valid = false;
       }
    }
 }
 
+let optionConfig;
+let configOptionValid = false;
+if(argv.config || argv.c){
+   const rawContent = fs.readFileSync(argv.c || argv.config).toString();
+   optionConfig = JSON.parse(rawContent)
+   configOptionValid = true;
+}
 
 if(valid ==false){
    //nothing to do here, don't execute any option
@@ -234,8 +243,12 @@ else if(argv.help || argv.h){
 }
 else{
    //==specify output==
-   if(argv.output || argv.o){
-      outputPath=(argv.output || argv.o)+"";
+   if(argv.output || argv.o || configOptionValid){
+      if (configOptionValid && optionConfig['output']){
+         outputPath=optionConfig.output;
+      }else{
+         outputPath=(argv.output || argv.o)+"";
+      }
       fs.access(outputPath, function(err) {//check if the directory exist
          if (err && err.code === 'ENOENT') {
            console.log("Error! Specified output directory doesn't exist, so default back to ./dist folder.");
@@ -248,21 +261,34 @@ else{
          }
       });  
    }
-
    //==specify stylesheet==
-   if(argv.stylesheet || argv.s){
-      css=`  <link rel="stylesheet" href="${(argv.stylesheet || argv.s)+""}">\n`;
+   if(argv.stylesheet || argv.s || configOptionValid){
+      if (configOptionValid && optionConfig['stylesheet']){
+         css=`  <link rel="stylesheet" href="${(optionConfig.stylesheet)+""}">\n`;   
+      }else{
+         css=`  <link rel="stylesheet" href="${(argv.stylesheet || argv.s)+""}">\n`;
+      }
    }
 
    //==specify language==
-   if(argv.lang || argv.l){
-         lang=argv.lang || argv.l;
+   if(argv.lang || argv.l || configOptionValid){
+         if (configOptionValid && optionConfig['lang']){
+            lang=optionConfig.lang;
+         }else{
+            lang=argv.lang || argv.l;
+         }
    }
 
    //==when one or more file are provided, convert them to html==
-   if(argv.input || argv.i){
+   if(argv.input || argv.i || configOptionValid){
 
-      const source = (argv.input || argv.i)+""; 
+      let source;
+      if (configOptionValid && optionConfig['input']){
+         source = optionConfig.input;
+      }else{
+         source = (argv.input || argv.i)+""; 
+      }
+
       let outputed=false;//flag for whether any output is created
       
       fs.access("./dist", (err)=>{//check if dist folder exist; if so, delete before creating it

@@ -1,0 +1,7 @@
+{
+  "input": "./test_files",
+  "stylesheet": "link1",
+  "output": "./dist",
+  "lang": "fr-CA",
+  "future-feature": "should be ignored for now"
+}

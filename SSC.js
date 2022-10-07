@@ -227,9 +227,14 @@ else{
 let optionConfig;
 let configOptionValid = false;
 if(argv.config || argv.c){
-   const rawContent = fs.readFileSync(argv.c || argv.config).toString();
-   optionConfig = JSON.parse(rawContent)
-   configOptionValid = true;
+   try {
+      const rawContent = fs.readFileSync(argv.c || argv.config).toString();
+      optionConfig = JSON.parse(rawContent)
+      configOptionValid = true;
+   }catch(err){
+      console.log("Could find config json file or could not be parsed.");
+      valid = false;
+   }
 }
 
 if(valid ==false){
@@ -265,8 +270,10 @@ else{
    }
    //==specify stylesheet==
    if(argv.stylesheet || argv.s || configOptionValid){
-      if (configOptionValid && optionConfig['stylesheet']){
-         css=`  <link rel="stylesheet" href="${(optionConfig.stylesheet)+""}">\n`;   
+      if (configOptionValid){
+         if(optionConfig['stylesheet']){
+            css=`  <link rel="stylesheet" href="${(optionConfig.stylesheet)+""}">\n`;   
+         }
       }else{
          css=`  <link rel="stylesheet" href="${(argv.stylesheet || argv.s)+""}">\n`;
       }
@@ -274,8 +281,10 @@ else{
 
    //==specify language==
    if(argv.lang || argv.l || configOptionValid){
-         if (configOptionValid && optionConfig['lang']){
-            lang=optionConfig.lang;
+         if (configOptionValid){
+            if (optionConfig['lang']){
+               lang=optionConfig.lang;
+            }
          }else{
             lang=argv.lang || argv.l;
          }
@@ -283,10 +292,11 @@ else{
 
    //==when one or more file are provided, convert them to html==
    if(argv.input || argv.i || configOptionValid){
-
       let source;
-      if (configOptionValid && optionConfig['input']){
-         source = optionConfig.input;
+      if (configOptionValid){
+         if (optionConfig['input']){
+            source = optionConfig.input;
+         }
       }else{
          source = (argv.input || argv.i)+""; 
       }

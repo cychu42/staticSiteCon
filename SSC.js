@@ -232,7 +232,7 @@ if(argv.config || argv.c){
       optionConfig = JSON.parse(rawContent)
       configOptionValid = true;
    }catch(err){
-      console.log("Could find config json file or could not be parsed.");
+      console.log("Could not find the config json file or could not be parsed.");
       valid = false;
    }
 }

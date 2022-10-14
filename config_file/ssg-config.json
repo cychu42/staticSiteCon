@@ -1,7 +1,7 @@
 {
   "input": "./test_files",
   "stylesheet": "link1",
-  "output": "./dist",
+  "output": "./dist2",
   "lang": "fr-CA",
   "future-feature": "should be ignored for now"
 }

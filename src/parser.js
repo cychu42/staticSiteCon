@@ -77,7 +77,10 @@ function mdParser(source, outputPath, css, lang){
    let boldClosed= true;
    //change to each line
    reader.on("line", function(line) {
- 
+
+      //parse links
+      line = line.replaceAll(/\[(.*?)\]\((.*?)\)/g, '<a href=$2>$1</a>');
+
       // Bold text parsing
       while (line.includes("__") || line.includes("**")) {
          if (boldClosed) {
@@ -104,7 +107,6 @@ function mdParser(source, outputPath, css, lang){
             }
          }
       }  
- 
  
       // parse any --- into <hr>
       line = line.replaceAll(/-{3,}/g, "<hr>");

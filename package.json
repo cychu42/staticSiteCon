@@ -9,6 +9,7 @@
   "author": "Chen-Yuan Chu",
   "license": "MIT",
   "dependencies": {
+    "fs-extra": "^10.1.0",
     "minimist": "^1.2.6"
   }
 }

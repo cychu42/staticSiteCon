@@ -3,8 +3,8 @@ var argv = require('minimist')(process.argv.slice(2));//args using minimist, but
 delete argv['_'];//this tool does not use it
 
 const { version } = require("./package.json");//version
-const { writer } = require("./src/writer.js");
-var {outputPath, css, lang, help} = require("./src/config.js");
+const { writer, staticFileHandler } = require("./src/writer.js");
+var { outputPath, css, lang, help } = require("./src/config.js");
 
 var valid=true;//validity of options
 
@@ -97,8 +97,10 @@ else{
       }
    
    //-------------------specify input end-------------------
+      let staticPath = `${source}/static`;//to be removed if user is able to store specified static path in config.js to be used
 
       writer(outputPath, source, css, lang);//write the files
+      staticFileHandler(staticPath, outputPath);//copy the static files
 
    }
 }

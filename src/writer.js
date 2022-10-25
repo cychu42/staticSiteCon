@@ -1,4 +1,5 @@
 const fs = require("fs");
+const fse = require('fs-extra')
 const path = require("path");
 const {txtParser, mdParser} = require("./parser.js");
 
@@ -72,4 +73,25 @@ function writer(outputPath, source, css, lang){
     }
 }
 
-module.exports.writer=writer;
+
+//copy static folder content into a static folder in output folder
+function staticFileHandler(staticPath, outputPath){
+    fs.readdir(staticPath, (err, files)=>{
+        try{   
+            if(files.length==0){//for the case of source folder being empty
+                console.log("No static files found in the static folder.");
+            }
+            fse.copySync(`${staticPath}`, `${outputPath}/static`);
+        }catch(e){
+            console.log("Invalid static folder path. Please ensure path is valid and exists.");//if source doesn't exist or is invalid, will throw error and come here
+            console.log(e.message);
+        }      
+        });
+}
+
+
+
+module.exports={
+    writer,
+    staticFileHandler
+};

@@ -1,5 +1,5 @@
 function startHtml(title, css, lang) {
-    let htmlStart = `<!doctype html>\n\
+  let htmlStart = `<!doctype html>\n\
  <html lang="${lang}">\n\
  <head>\n\
    <meta charset="utf-8">\n\
@@ -8,22 +8,20 @@ function startHtml(title, css, lang) {
  ${css}\
  </head>\n\
  <body>\n`;
-    return htmlStart;
- }
+  return htmlStart;
+}
 
- 
-//close html file writing proccess: write last part and output complete message
-function closeHtml(reader,outStream, name){
-   //write the ending part when there's no more
-   reader.on("close", function() {
-      outStream.write("</p>\n </body>\n</html>\n");
-   });
+//close html file writing process: write last part and output complete message
+function closeHtml(reader, outStream, name) {
+  //write the ending part when there's no more
+  reader.on("close", function () {
+    outStream.write("</p>\n </body>\n</html>\n");
+  });
 
-   console.log(`${name}.html`);//part of message for what's created
-};
+  console.log(`${name}.html`); //part of message for what's created
+}
 
-
-module.exports={
-    startHtml,
-    closeHtml
+module.exports = {
+  startHtml,
+  closeHtml,
 };

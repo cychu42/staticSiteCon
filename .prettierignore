@@ -1,0 +1,24 @@
+# test files
+config_file
+test_files
+
+# output
+dist
+
+# others
+node_modules
+.gitignore
+LICENSE
+package-lock.json
+package.json
+
+# prettier
+.prettierrc.json
+.prettierignore
+
+# ESLinter
+.eslintrc.json
+.eslintignore
+
+# setting
+.vscode

@@ -1,14 +1,13 @@
-
-let outputPath="./dist";//output path
-let css="";//stylesheet url
-let lang="en-CA";//language of the HTML files
+let outputPath = "./dist"; //output path
+let css = ""; //stylesheet url
+let lang = "en-CA"; //language of the HTML files
 
 //help description
-const help=
-"## Goal\n\
+const help =
+  "## Goal\n\
 This is mainly a tool that converts TXT files into static web pages. Additionally, Markdown(MD) files will also get converted into HTML.  Any bold text in the MD file will also appear bold in the HTML file. Also, any `---` or longer variations will become horizontal rule/line in the HTML files.\n\n\
 \
-## Requirment\n\
+## Requirement\n\
 Please first have Node.js installed on your machine. After downloading this tool, please run command 'npm i' in command line(such as cmd or PowerShell) while inside the tools directory to install required npm package(s).\n\n\
 \
 ## Usage\n\
@@ -45,11 +44,11 @@ Example: -l fr\n\n\
 \
 '--config' or '-c'\n\
 Use this to specify JSON config file that has a list of options. If the same option is provided in config file and command line argument, the command line argument will be overridden.\n\
-Example: -c ./config.json"
+Example: -c ./config.json";
 
-module.exports={
-   outputPath,
-   css,
-   lang,
-   help
+module.exports = {
+  outputPath,
+  css,
+  lang,
+  help,
 };

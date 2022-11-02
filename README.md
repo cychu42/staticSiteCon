@@ -3,10 +3,10 @@
 ## Goal
 
 This is mainly a tool that converts TXT files into static web pages. Additionally, Markdown(MD) files will also get converted into HTML. Any **_bold_** text in the MD file will also appear **_bold_** in the HTML file. Also, any `---` or longer variations from Markdown files will become horizontal rule/line in the HTML files.
-Any link syntax (such as `(text)[link]`) in Markdone files will be converted itno a HTML link.
+Any link syntax (such as `[text](link)`) in Markdown files will be converted into a HTML link.
 If you have a static folder under your input folder directory, all fo its content will be copied to the static folder in the output directory.
 
-## Requirment
+## Requirement
 
 Please first have Node.js installed on your machine. After downloading this tool, please run command `npm i` in command line(such as cmd or PowerShell) while inside the tool's directory to install required npm package(s).
 
@@ -59,3 +59,7 @@ Example: `node index -i ./'a folder with space in the name'`
   "future-feature": "invalid option will be ignored"
 }
 ```
+
+## Contributing
+
+Please see [CONTRIBUTING.md](https://github.com/cychu42/staticSiteCon/blob/main/CONTRIBUTING.md).

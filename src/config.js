@@ -1,6 +1,5 @@
 let outputPath = "./dist"; //output path
 let css = ""; //stylesheet url
-let lang = "en-CA"; //language of the HTML files
 
 //help description
 const help =

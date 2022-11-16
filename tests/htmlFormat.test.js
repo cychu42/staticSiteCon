@@ -21,11 +21,11 @@ describe("startHtml tests", () => {
  </head>\n\
  <body>\n`;
 
-  test("startHtml: no css should be present when it's not provided", async () => {
+  test("no css should be present when it's not provided", async () => {
     expect(startHtml("ABC", "", "ABC")).toBe(startHtmlNoCss);
   });
 
-  test("startHtml: all arguments are provided", async () => {
+  test("all arguments are provided", async () => {
     expect(
       startHtml(
         "ABC",

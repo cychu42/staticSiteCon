@@ -21,5 +21,8 @@ To run individual tests, use `npm test [test-path]`. For example, `npm test ./te
 ## Writing Tests
 
 All tests are in `tests` folder.
+
+To see test coverage, run command: `jest --collectCoverage`
+
 To write tests, please make sure your test is needed and not covered by existing tests. Try to follow the syntax and format of existing test and/or look up [Jest](https://jestjs.io/docs/using-matchers) documentations for how to do it.
 Please keep test file scope to their respective file and name them accordingly. For example, if you want to make a test file for `writer.js`, create a `writer.test.js` file in the `tests` folder, and make sure all tests within `writer.test.js` are about code inside `writer.js`.

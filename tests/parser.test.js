@@ -42,6 +42,46 @@ describe("mdLineParser tests", () => {
   const expectedResult =
     "  <p><b>something,</b> what</p>\n\n  <p>ever, and <a href=link>text</a>.<hr>";
 
+  test("close a sentence when empty space is encountered, line isn't closed and bold closed false", async () => {
+    expect(mdLineParser(" ", false, false).toWrite).toBe("</p>\n\n");
+  });
+
+  test("write \\n when empty space is encountered, line is closed and bold closed true", async () => {
+    expect(mdLineParser("", true, true).toWrite).toBe("\n");
+  });
+
+  test("write \\n when empty space is encountered, line is closed and bold closed false", async () => {
+    expect(mdLineParser("", true, false).toWrite).toBe("\n");
+  });
+
+  test("write \\n when empty space is encountered, line isn't closed and bold closed true", async () => {
+    expect(mdLineParser("", false, true).toWrite).toBe("</p>\n\n");
+  });
+
+  test("Parse a sentence that has horizontal rules", async () => {
+    expect(
+      mdLineParser("---Hello this is a test sentence---", false, false).toWrite
+    ).toBe(" <hr>Hello this is a test sentence<hr>");
+  });
+
+  test("Start sentence with <p>", async () => {
+    expect(
+      mdLineParser("Hello this is a test sentence", true, false).toWrite
+    ).toBe("  <p>Hello this is a test sentence");
+  });
+
+  test("Start sentence with <p>", async () => {
+    expect(
+      mdLineParser(
+        "Hello this is a test sentence with a **[link](www.google.ca)**",
+        true,
+        true
+      ).toWrite
+    ).toBe(
+      "  <p>Hello this is a test sentence with a <b><a href=www.google.ca>link</a></b>"
+    );
+  });
+
   test("parse a simple text sample with horizontal line break, bold, and link syntax", async () => {
     const lines = data.split("\n");
     var result;

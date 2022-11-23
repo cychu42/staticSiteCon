@@ -8,35 +8,35 @@ function writer(outputPath, source, css, lang) {
   let outputed = false; //flag for whether any output is created
 
   //check if the directory exist
-  fs.access(outputPath, function (err) {
-    if (err && err.code === "ENOENT") {
-      console.log(
-        "Error! Specified output directory doesn't exist, so default back to ./dist folder."
-      );
-      outputPath = "./dist";
-    } else {
-      if (outputPath.localeCompare("./dist")) {
-        //if outputing to an existing user-specified folder
-        fs.promises.mkdir(outputPath, { recursive: true });
-        console.log("Output file(s):");
-      }
+  try {
+    fs.accessSync(outputPath, fs.constants.F_OK);
+    if (outputPath.localeCompare("./dist")) {
+      //if outputing to an existing user-specified folder
+      fs.promises.mkdir(outputPath, { recursive: true });
+      console.log("Output file(s):");
     }
-  });
+  } catch (e) {
+    console.log(
+      "Error! Specified output directory doesn't exist, so default back to ./dist folder."
+    );
+    outputPath = "./dist";
+  }
 
   //check if dist folder exist; if so, delete before creating it
-  fs.access("./dist", (err) => {
+  try {
+    fs.accessSync("./dist", fs.constants.F_OK);
     if (!outputPath.localeCompare("./dist")) {
-      if (err) {
-        fs.promises.mkdir(outputPath, { recursive: true });
-        console.log("New dis folder created. Output file(s):");
-      } else {
-        fs.rmSync(outputPath, { recursive: true });
-        console.log("Old dist folder deleted.");
-        fs.promises.mkdir(outputPath, { recursive: true });
-        console.log("New dis folder created. Output file(s):");
-      }
+      fs.rmSync(outputPath, { recursive: true });
+      console.log("Old dist folder deleted.");
+      fs.promises.mkdir(outputPath, { recursive: true });
+      console.log("New dis folder created. Output file(s):");
     }
-  });
+  } catch (e) {
+    if (!outputPath.localeCompare("./dist")) {
+      fs.promises.mkdir(outputPath, { recursive: true });
+      console.log("New dis folder created. Output file(s):");
+    }
+  }
 
   //----------actual writing----------
   let sourceExtension = path.extname(source);
@@ -86,13 +86,11 @@ function staticFileHandler(staticPath, outputPath) {
       if (files.length == 0) {
         //for the case of source folder being empty
         console.log("No static files found in the static folder.");
+      } else {
+        fse.copySync(`${staticPath}`, `${outputPath}/static`);
       }
-      fse.copySync(`${staticPath}`, `${outputPath}/static`);
     } catch (e) {
-      console.log(
-        "Invalid static folder path. Please ensure path is valid and exists."
-      ); //if source doesn't exist or is invalid, will throw error and come here
-      console.log(e.message);
+      console.log("No valid static folder found."); //if source doesn't exist or is invalid, will throw error and come here
     }
   });
 }

@@ -6,9 +6,14 @@ This is mainly a tool that converts TXT files into static web pages. Additionall
 Any link syntax (such as `[text](link)`) in Markdown files will be converted into a HTML link.
 If you have a static folder under your input folder directory, all fo its content will be copied to the static folder in the output directory.
 
-## Requirement
+## Getting Started
 
-Please first have Node.js installed on your machine. After downloading this tool, please run command `npm i` in command line(such as cmd or PowerShell) while inside the tool's directory to install required npm package(s).
+Please first have Node.js installed on your machine.
+
+1. While inside an empty folder, download the tool via command `npm i static-site-convertor` in command line (such as cmd or PowerShell)
+2. Run command `cd static-site-convertor` to get into the tool root folder
+3. Run command `npm i` to install required npm package(s)
+4. You can now use it! See the next **Usage** section for more details
 
 ## Usage
 

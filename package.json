@@ -1,5 +1,5 @@
 {
-  "name": "ssg",
+  "name": "static-site-convertor",
   "version": "1.0.0",
   "description": "txt-to-html static site generator",
   "main": "staticSiteCon.js",

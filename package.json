@@ -1,6 +1,6 @@
 {
   "name": "static-site-convertor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "txt-to-html static site generator",
   "main": "staticSiteCon.js",
   "scripts": {

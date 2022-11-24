@@ -1,7 +1,7 @@
 {
-  "name": "static-site-convertor",
-  "version": "1.0.2",
-  "description": "txt-to-html static site generator",
+  "name": "static-site-converter",
+  "version": "1.0.3",
+  "description": "txt-to-html static site generater",
   "main": "staticSiteCon.js",
   "scripts": {
     "test": "jest"

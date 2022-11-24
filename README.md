@@ -10,8 +10,8 @@ If you have a static folder under the input folder directory specified via comma
 
 Please first have Node.js installed on your machine.
 
-1. While inside an empty folder, download the tool via command `npm i static-site-convertor` in command line (such as cmd or PowerShell)
-2. Run command `cd node_modules\static-site-convertor` to get into the tool's root folder
+1. While inside an empty folder, download the tool via command `npm i static-site-converter` in command line (such as cmd or PowerShell)
+2. Run command `cd node_modules\static-site-converter` to get into the tool's root folder
 3. You can now use it! See the next **Usage** section for more details
 
 ## Usage

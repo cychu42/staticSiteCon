@@ -11,9 +11,8 @@ If you have a static folder under your input folder directory, all fo its conten
 Please first have Node.js installed on your machine.
 
 1. While inside an empty folder, download the tool via command `npm i static-site-convertor` in command line (such as cmd or PowerShell)
-2. Run command `cd static-site-convertor` to get into the tool root folder
-3. Run command `npm i` to install required npm package(s)
-4. You can now use it! See the next **Usage** section for more details
+2. Run command `cd node_modules\static-site-convertor` to get into the tool's root folder
+3. You can now use it! See the next **Usage** section for more details
 
 ## Usage
 
